@@ -1,0 +1,32 @@
+---
+# Hostlist classifiers.
+# Keys for the top level dictionary are Cloud VPS project names.
+# Values are expected to be a dictionary of FQDN prefix to group names.
+# The group names will be prefixed with 'PROJECT-' in the output.
+
+tools:
+    '': all
+    tools-bastion-: bastion
+    tools-checker-: checker
+    tools-cron-: cron
+    tools-docker-builder: docker-builder
+    tools-docker-registry: docker-registry
+    tools-elastic-: elastic
+    tools-exec-: exec
+    tools-flannel-etcd: flannel-etcd
+    tools-grid-master: grid-master
+    tools-grid-shadow: grid-shadow
+    tools-k8s-etcd: k8s-etcd
+    tools-k8s-master: k8s-master
+    tools-logs: logs
+    tools-mail: mail
+    tools-prometheus: prometheus
+    tools-proxy-: webproxy
+    tools-puppetmaster-: puppetmaster
+    tools-redis-: redis
+    tools-services-: services
+    tools-static-: static
+    tools-webgrid-: webgrid
+    tools-webgrid-generic: webgrid-generic
+    tools-webgrid-lighttpd-: webgrid-lighttpd
+    tools-worker-: ks8-worker

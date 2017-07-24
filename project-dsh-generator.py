@@ -14,38 +14,15 @@ This sets parallelism to 4, tweak as necessary.
 """
 from urllib.request import urlopen
 import argparse
+import os
 import sys
+import yaml
 
 OSB = 'https://tools.wmflabs.org/openstack-browser'
 
-# Maps prefixes to hostgroup names
-classifier = {
-    'tools': {
-        '': 'all',
-        'tools-bastion-': 'bastion',
-        'tools-checker-': 'checker',
-        'tools-cron-': 'cron',
-        'tools-docker-': 'docker',
-        'tools-elastic-': 'elastic',
-        'tools-exec-': 'exec-all',
-        'tools-flannel-': 'flannel',
-        'tools-k8s-': 'k8s',
-        'tools-mail': 'mail',
-        'tools-master': 'master',
-        'tools-proxy-': 'proxy',
-        'tools-redis-': 'redis',
-        'tools-services-': 'services',
-        'tools-static-': 'static',
-        'tools-webgrid-': 'webgrid-all',
-        'tools-webgrid-generic': 'webgrid-generic',
-        'tools-webgrid-lighttpd-': 'webgrid-lighttpd-all',
-        'tools-webgrid-lighttpd-14': 'webgrid-lighttpd-trusty',
-        'tools-worker-': 'worker',
-    },
-}
-
 
 def eprint(*args, **kwargs):
+    """Print to stderr."""
     print(*args, file=sys.stderr, **kwargs)
 
 
@@ -59,11 +36,18 @@ def get_list(url):
 def main():
     parser = argparse.ArgumentParser(description='DSH hostfile generator')
     parser.add_argument(
-        'project', metavar='PROJECT', nargs='*',
-        help='Cloud VPS project')
-    parser.add_argument(
         '--all', action='store_true',
         help='Generate files for all projects')
+    parser.add_argument(
+        '--classifiers',
+        default=os.path.join(
+            os.environ.get('XDG_CONFIG_HOME', os.path.expanduser('~/.config')),
+            'clustershell',
+            'classifiers.yaml'),
+        help='Generate files for all projects')
+    parser.add_argument(
+        'project', metavar='PROJECT', nargs='*',
+        help='Cloud VPS project')
     args = parser.parse_args()
 
     if args.all:
@@ -74,6 +58,12 @@ def main():
     else:
         projects = args.project
 
+    try:
+        with open(args.classifiers, 'r') as f:
+            classifiers = yaml.safe_load(f.read())
+    except IOError as e:
+        classifiers = {}
+
     for project in projects:
         eprint('Fetching hosts for project {}'.format(project))
         api_url = '{}/api/dsh/project/{}'.format(OSB, project)
@@ -83,8 +73,8 @@ def main():
             eprint(' - No hosts in project {}'.format(project))
             continue
 
-        if project in classifier:
-            for prefix, group in classifier[project].items():
+        if project in classifiers:
+            for prefix, group in classifiers[project].items():
                 with open('{}-{}'.format(project, group), 'w') as f:
                     f.write("\n".join([
                         host
