@@ -1,16 +1,9 @@
 #!/usr/bin/env python3
 """
-Simple script that generates hosts files usable with dsh/pssh
-for running administrative actions on all hosts in a particular
-labs project.
+Generate hostgroups for Wikimedia Cloud VPS projects.
 
-Hits the openstack-browser API.
-
-You can execute commands via pssh like:
-
-    pssh -t0 -p4 -h <hostgroup> '<command>'
-
-This sets parallelism to 4, tweak as necessary.
+Generates lists of hosts suitable for use with either dsh/pssh or clush for
+Cloud VPS projects using data collected from the openstack-browser API.
 """
 from urllib.request import urlopen
 import argparse
@@ -57,27 +50,29 @@ def _outfile(base, fname):
 
 
 def main():
-    parser = argparse.ArgumentParser(description='DSH hostfile generator')
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        description=sys.modules[__name__].__doc__)
     parser.add_argument(
         '--all', action='store_true',
-        help='Generate files for all projects')
+        help='generate hostgroups for all projects')
     parser.add_argument(
-        '--classifiers',
+        '--classifiers', metavar='YAML',
         default=os.path.join(
             os.environ.get('XDG_CONFIG_HOME', os.path.expanduser('~/.config')),
             'clustershell',
             'classifiers.yaml'),
-        help='Generate files for all projects')
+        help='YAML file of patterns to partition hostgroups for a project')
     parser.add_argument(
-        '--output',
+        '--output', metavar='FILE',
         default=os.getcwd(),
-        help='Directory or file to output results to.')
+        help='directory or file to output results to')
     parser.add_argument(
         '--clush', action='store_true',
-        help='Generate clush hostgroup mapping file instead of dsh files.')
+        help='generate clush hostgroup mapping file instead of dsh files')
     parser.add_argument(
         'project', metavar='PROJECT', nargs='*',
-        help='Cloud VPS project')
+        help='Cloud VPS project name')
     args = parser.parse_args()
 
     if args.all:
