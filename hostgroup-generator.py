@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#
+# Copyright (c) 2017 Wikimedia Foundation and contributors
+# Copyright (c) 2017 Yuvi Panda
+# License: Apache-2.0
 """
 Generate hostgroups for Wikimedia Cloud VPS projects.
 
