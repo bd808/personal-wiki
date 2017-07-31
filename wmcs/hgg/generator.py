@@ -135,4 +135,5 @@ def main():
                 f.write("\n".join(data))
 
 
-main()
+if __name__ == '__main__':
+    main()

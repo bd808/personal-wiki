@@ -39,7 +39,8 @@ def main():
         help='path to a YAML file with hostgroup information.')
 
     subparser = parser.add_subparsers(
-        title='subcommands', metavar='COMMAND')
+        title='subcommands', metavar='COMMAND', dest='cmd')
+    subparser.required = True
 
     map_parser = subparser.add_parser(
         'map', help='resolve a group name into a node set.')
@@ -62,4 +63,5 @@ def main():
         args.func(yaml.safe_load(fh), args)
 
 
-main()
+if __name__ == '__main__':
+    main()
