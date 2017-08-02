@@ -20,6 +20,8 @@ tools:
     tools-k8s-master: k8s-master
     tools-logs: logs
     tools-mail: mail
+    tools-paws-master: paws-master
+    tools-paws-worker: paws-worker
     tools-prometheus: prometheus
     tools-proxy-: webproxy
     tools-puppetmaster-: puppetmaster
