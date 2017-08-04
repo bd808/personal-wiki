@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
 # Copyright (c) 2017 Wikimedia Foundation and contributors
@@ -10,12 +9,19 @@ Generate hostgroups for Wikimedia Cloud VPS projects.
 Generates lists of hosts suitable for use with either dsh/pssh or clush for
 Cloud VPS projects using data collected from the openstack-browser API.
 """
-from urllib.request import urlopen
+from __future__ import print_function
+
 import argparse
 import contextlib
 import os
 import sys
 import yaml
+
+try:
+    from urllib.request import urlopen
+except ImportError:
+    from urllib2 import urlopen
+
 
 OSB = 'https://tools.wmflabs.org/openstack-browser'
 
@@ -101,7 +107,7 @@ def main():
     try:
         with open(args.classifiers, 'r') as f:
             classifiers = yaml.safe_load(f.read())
-    except IOError as e:
+    except IOError:
         classifiers = {}
 
     hostgroups = {}

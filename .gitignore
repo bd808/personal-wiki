@@ -1,2 +1,17 @@
+*$py.class
+*.egg
+*.egg-info/
+*.py[cod]
+.eggs/
+/.env/
 /.tox
+/.venv/
+/env/
+/venv/
 __pycache__/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+wheels/

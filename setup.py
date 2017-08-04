@@ -24,6 +24,10 @@ setup(
         'Environment :: Console',
         'Intended Audience :: System Administrators',
         'License :: OSI Approved :: Apache Software License',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.4',
+        'Topic :: System :: Distributed Computing',
+        'Topic :: System :: Systems Administration',
     ],
     packages=find_packages(),
     install_requires=[

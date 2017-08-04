@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
 # Copyright (c) 2017 Wikimedia Foundation and contributors
@@ -7,6 +6,8 @@
 Helper program intended to be used as a clustershell external node group
 source for processing a hostgroup.yaml file.
 """
+from __future__ import print_function
+
 import argparse
 import itertools
 import sys
